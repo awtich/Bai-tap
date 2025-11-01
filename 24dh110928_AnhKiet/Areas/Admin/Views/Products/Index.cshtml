@@ -5,52 +5,46 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="container mt-5">
-    <div class="card shadow-lg border-0 rounded-3">
-        <div class="card-header bg-primary text-white fw-bold d-flex justify-content-between align-items-center">
-            <span>📦 DANH SÁCH SẢN PHẨM</span>
-            @Html.ActionLink("➕ Thêm sản phẩm mới", "Create", null, new { @class = "btn btn-light btn-sm fw-semibold" })
-        </div>
+<div class="card shadow-sm border-0 mt-4">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0"><i class="bi bi-box-seam"></i> Danh sách sản phẩm</h4>
+        @Html.ActionLink("Thêm mới", "Create", null, new { @class = "btn btn-light text-primary fw-bold" })
+    </div>
 
-        <div class="card-body">
-            <table class="table table-hover align-middle text-center">
-                <thead class="table-dark">
+    <div class="card-body">
+        <table class="table table-hover align-middle text-center">
+            <thead class="table-light">
+                <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Mô tả</th>
+                    <th>Giá</th>
+                    <th>Hình ảnh</th>
+                    <th>Danh mục</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
                     <tr>
-                        <th>Tên sản phẩm</th>
-                        <th>Mô tả</th>
-                        <th>Giá (VNĐ)</th>
-                        <th>Hình ảnh</th>
-                        <th>Danh mục</th>
-                        <th>Thao tác</th>
+                        <td>@item.ProductName</td>
+                        <td>@item.ProductDecription</td>
+                        <td class="text-danger fw-bold">@item.ProductPrice.ToString("N0") ₫</td>
+                        <td>
+                            <img src="~/Content/Images/@item.ProductImage" alt="@item.ProductName" width="80" height="80" class="rounded shadow-sm" />
+                        </td>
+                        <td>
+                            @(item.Category != null ? item.Category.CategoryName : "Không có danh mục")
+                        </td>
+                        <td>
+                            @Html.ActionLink("Sửa", "Edit", new { id = item.ProductID }, new { @class = "btn btn-warning btn-sm fw-bold me-1" })
+                            @Html.ActionLink("Chi tiết", "Details", new { id = item.ProductID }, new { @class = "btn btn-info btn-sm fw-bold text-white me-1" })
+                            @Html.ActionLink("Xóa", "Delete", new { id = item.ProductID }, new { @class = "btn btn-danger btn-sm fw-bold" })
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.ProductName</td>
-                            <td class="text-truncate" style="max-width: 250px;">@item.ProductDecription</td>
-                            <td>@String.Format("{0:N0}", item.ProductPrice)</td>
-                            <td>
-                                @if (!string.IsNullOrEmpty(item.ProductImage))
-                                {
-                                    <img src="~/Content/Images/@item.ProductImage" alt="Ảnh" width="80" height="80" class="rounded shadow-sm" />
-                                }
-                                else
-                                {
-                                    <span class="text-muted fst-italic">Không có ảnh</span>
-                                }
-                            </td>
-                            <td>@item.Category?.CategoryName</td>
-                            <td>
-                                @Html.ActionLink("Sửa", "Edit", new { id = item.ProductID }, new { @class = "btn btn-warning btn-sm me-1" })
-                                @Html.ActionLink(" Xem", "Details", new { id = item.ProductID }, new { @class = "btn btn-info btn-sm me-1 text-white" })
-                                @Html.ActionLink(" Xóa", "Delete", new { id = item.ProductID }, new { @class = "btn btn-danger btn-sm" })
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                }
+            </tbody>
+        </table>
     </div>
 </div>

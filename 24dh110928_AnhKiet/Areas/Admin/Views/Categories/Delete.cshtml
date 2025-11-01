@@ -6,33 +6,31 @@
 }
 
 <div class="container mt-5">
-    <div class="card shadow-lg border-0 rounded-3">
-        <div class="card-header bg-danger text-white fw-bold">
-             Xác nhận xóa danh mục
+    <div class="card shadow border-danger">
+        <div class="card-header bg-danger text-white d-flex align-items-center">
+            <i class="bi bi-exclamation-triangle-fill me-2 fs-4"></i>
+            <h4 class="mb-0">Xóa danh mục</h4>
         </div>
 
         <div class="card-body">
-            <p class="fs-5 text-danger mb-4">
-                Bạn có chắc chắn muốn xóa danh mục này không?
-            </p>
+            <div class="alert alert-warning" role="alert">
+                <i class="bi bi-exclamation-circle"></i>
+                Bạn có chắc chắn muốn xóa danh mục này? Hành động này <strong>không thể hoàn tác</strong>.
+            </div>
 
-            <dl class="row">
-                <dt class="col-sm-3 fw-semibold">Tên danh mục</dt>
+            <dl class="row mb-4">
+                <dt class="col-sm-3 fw-bold">Tên danh mục:</dt>
                 <dd class="col-sm-9">@Html.DisplayFor(model => model.CategoryName)</dd>
             </dl>
 
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
-
-                <div class="d-flex justify-content-between mt-4">
-                    <a href="@Url.Action("Index")" class="btn btn-secondary">
-                         Quay lại danh sách
-                    </a>
-
-                    <button type="submit" class="btn btn-danger fw-bold">
-                         Xóa danh mục
+                <div class="text-end">
+                    <button type="submit" class="btn btn-danger me-2">
+                        <i class="bi bi-trash3"></i> Xóa
                     </button>
+                    @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-outline-secondary" })
                 </div>
             }
         </div>
