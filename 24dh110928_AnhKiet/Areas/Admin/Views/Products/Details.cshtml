@@ -5,50 +5,39 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="container mt-5">
-    <div class="card shadow-lg border-0 rounded-3">
-        <div class="card-header bg-info text-white fw-bold">
-            🔍 CHI TIẾT SẢN PHẨM
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">
+                <i class="bi bi-info-circle-fill"></i> Chi tiết sản phẩm
+            </h4>
         </div>
 
         <div class="card-body">
-            <div class="row">
-                <!-- Ảnh sản phẩm -->
-                <div class="col-md-4 text-center">
-                    @if (!string.IsNullOrEmpty(Model.ProductImage))
-                    {
-                        <img src="~/Content/Images/@Model.ProductImage" alt="Ảnh sản phẩm" class="img-fluid rounded shadow-sm mb-3" style="max-height: 250px;" />
-                    }
-                    else
-                    {
-                        <div class="alert alert-secondary">Không có ảnh sản phẩm</div>
-                    }
-                </div>
+            <dl class="row">
+                <dt class="col-sm-3 fw-bold">Tên sản phẩm:</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.ProductName)</dd>
 
-                <!-- Thông tin sản phẩm -->
-                <div class="col-md-8">
-                    <h4 class="fw-bold mb-3 text-primary">@Model.ProductName</h4>
-                    <table class="table table-borderless">
-                        <tr>
-                            <th class="text-secondary" style="width: 30%;">Mô tả:</th>
-                            <td>@Model.ProductDecription</td>
-                        </tr>
-                        <tr>
-                            <th class="text-secondary">Giá:</th>
-                            <td class="fw-bold text-danger">@String.Format("{0:N0} VNĐ", Model.ProductPrice)</td>
-                        </tr>
-                        <tr>
-                            <th class="text-secondary">Danh mục:</th>
-                            <td>@Model.Category?.CategoryName</td>
-                        </tr>
-                    </table>
-                </div>
+                <dt class="col-sm-3 fw-bold">Mô tả:</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.ProductDecription)</dd>
+
+                <dt class="col-sm-3 fw-bold">Giá:</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.ProductPrice)</dd>
+
+                <dt class="col-sm-3 fw-bold">Hình ảnh:</dt>
+                <dd class="col-sm-9">
+                    <img src="~/Content/Images/@Model.ProductImage" alt="@Model.ProductName"
+                         class="img-thumbnail" style="max-width:150px;" />
+                </dd>
+
+                <dt class="col-sm-3 fw-bold">Danh mục:</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Category.CategoryName)</dd>
+            </dl>
+
+            <div class="text-end mt-4">
+                @Html.ActionLink("Chỉnh sửa", "Edit", new { id = Model.ProductID }, new { @class = "btn btn-warning me-2" })
+                @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary" })
             </div>
-        </div>
-
-        <div class="card-footer text-end">
-            @Html.ActionLink(" Sửa", "Edit", new { id = Model.ProductID }, new { @class = "btn btn-warning me-2" })
-            @Html.ActionLink(" Quay lại danh sách", "Index", null, new { @class = "btn btn-secondary" })
         </div>
     </div>
 </div>

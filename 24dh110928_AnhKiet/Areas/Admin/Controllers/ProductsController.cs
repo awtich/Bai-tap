@@ -1,12 +1,13 @@
-﻿using System;
+﻿using _24dh110928_AnhKiet.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using _24dh110928_AnhKiet.Models;
 
 namespace _24dh110928_AnhKiet.Areas.Admin.Controllers
 {
@@ -48,18 +49,41 @@ namespace _24dh110928_AnhKiet.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProductID,CategoryID,ProductName,ProductDecription,ProductPrice,ProductImage")] Product product)
+
+        public ActionResult Create(
+    [Bind(Include = "ProductID,CategoryID,ProductName,ProductDecription,ProductPrice,ProductImage")] Product product,
+    HttpPostedFileBase ImageFile)  // thêm tham số này để nhận file upload
         {
             if (ModelState.IsValid)
             {
+                // Nếu người dùng chọn file ảnh
+                if (ImageFile != null && ImageFile.ContentLength > 0)
+                {
+                    // Lấy tên file
+                    string fileName = Path.GetFileName(ImageFile.FileName);
+
+                    // Tạo đường dẫn lưu file trong thư mục Content/Images
+                    string path = Path.Combine(Server.MapPath("~/Content/Images/"), fileName);
+
+                    // Lưu file vào thư mục
+                    ImageFile.SaveAs(path);
+
+                    // Lưu tên file vào cột ProductImage
+                    product.ProductImage = fileName;
+                }
+
+                // Lưu sản phẩm vào database
                 db.Products.Add(product);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
+            // Nếu có lỗi -> load lại dropdown danh mục
             ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "CategoryName", product.CategoryID);
             return View(product);
         }
+
 
         // GET: Admin/Products/Edit/5
         public ActionResult Edit(int? id)

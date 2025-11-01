@@ -1,49 +1,55 @@
 ﻿@model _24dh110928_AnhKiet.Models.Product
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Xóa sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Delete Product</h2>
-
-<h3>Are you sure you want to delete this product?</h3>
-<div>
-    <h4>Product Details</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>@Html.DisplayNameFor(model => model.ProductName)</dt>
-        <dd>@Html.DisplayFor(model => model.ProductName)</dd>
-
-        <dt>@Html.DisplayNameFor(model => model.ProductDecription)</dt>
-        <dd>@Html.DisplayFor(model => model.ProductDecription)</dd>
-
-        <dt>@Html.DisplayNameFor(model => model.ProductPrice)</dt>
-        <dd>@Html.DisplayFor(model => model.ProductPrice)</dd>
-
-        <dt>@Html.DisplayNameFor(model => model.ProductImage)</dt>
-        <dd>
-            @if (!string.IsNullOrEmpty(Model.ProductImage))
-            {
-                <img src="~/Content/Images/@Model.ProductImage" alt="Product Image" width="150" class="img-thumbnail" />
-            }
-            else
-            {
-                <p>No image available</p>
-            }
-        </dd>
-
-        <dt>@Html.DisplayNameFor(model => model.Category.CategoryName)</dt>
-        <dd>@Html.DisplayFor(model => model.Category.CategoryName)</dd>
-    </dl>
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-danger" />
-            @Html.Raw("&nbsp;")
-            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+<div class="container mt-4">
+    <div class="card shadow-sm border-danger">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">
+                <i class="bi bi-exclamation-triangle-fill"></i> Xóa sản phẩm
+            </h4>
         </div>
-    }
+
+        <div class="card-body">
+            <h5 class="text-danger">Bạn có chắc chắn muốn xóa sản phẩm này không?</h5>
+            <hr />
+
+            <dl class="row mb-4">
+                <dt class="col-sm-3 fw-bold">Tên sản phẩm:</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.ProductName)</dd>
+
+                <dt class="col-sm-3 fw-bold">Mô tả:</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.ProductDecription)</dd>
+
+                <dt class="col-sm-3 fw-bold">Giá:</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.ProductPrice)</dd>
+
+                <dt class="col-sm-3 fw-bold">Hình ảnh:</dt>
+                <dd class="col-sm-9">
+                    <img src="~/Content/Images/@Model.ProductImage" alt="@Model.ProductName" class="img-thumbnail" style="max-width:150px;" />
+                </dd>
+
+                <dt class="col-sm-3 fw-bold">Danh mục:</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Category.CategoryName)</dd>
+            </dl>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="text-end">
+                    <button type="submit" class="btn btn-danger me-2">
+                        <i class="bi bi-trash3"></i> Xóa
+                    </button>
+                    @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary" })
+                </div>
+            }
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
